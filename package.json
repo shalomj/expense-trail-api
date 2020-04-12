@@ -1,0 +1,31 @@
+{
+  "name": "expense-trail-api",
+  "version": "1.0.0",
+  "description": "API for Expense Trail app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server",
+    "dev": "nodemon server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shalomj/expense-trail-api.git"
+  },
+  "author": "Shalom Jerusalem",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shalomj/expense-trail-api/issues"
+  },
+  "homepage": "https://github.com/shalomj/expense-trail-api#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^6.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.9.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}
