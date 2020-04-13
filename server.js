@@ -1,9 +1,17 @@
 const express = require('express');
 const dotenv = require('dotenv');
-const app = express();
+const DB = require('./db');
 
+// Init environment config
 dotenv.config();
 
+// Connect to the database
+DB.init().connect();
+
+// Setup Express server
+const app = express();
+
+// Middleware to parse request payload to JSON
 app.use(express.json());
 
 app.get('/', (req, res) => {
