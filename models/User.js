@@ -17,7 +17,6 @@ const UserSchema = new Schema({
     email: {
         type: String,
         required: true,
-
     },
     password: {
         type: String,
@@ -30,6 +29,10 @@ const UserSchema = new Schema({
         type: Boolean
     },
     createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
         type: Date,
         default: Date.now
     }
