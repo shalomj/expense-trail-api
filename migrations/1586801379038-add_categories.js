@@ -13,7 +13,7 @@ async function up() {
     const categoriesData = JSON.parse(fs.readFileSync(dataPath));
 
     try {
-        await this('categories').insertMany(categoriesData);
+        await this('category').insertMany(categoriesData);
     } catch (err) {
         logger(err);
     }
@@ -26,7 +26,7 @@ async function down() {
     console.log(this);
 
     try {
-        await this('categories').deleteMany({});
+        await this('category').deleteMany({});
     } catch (err) {
         logger(err);
     }
