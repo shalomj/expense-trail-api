@@ -1,0 +1,166 @@
+[
+    {
+        "name": "Salary",
+        "type": "income"
+    },
+    {
+        "name": "Awards",
+        "type": "income"
+    },
+    {
+        "name": "Grants",
+        "type": "income"
+    },
+    {
+        "name": "Sale",
+        "type": "income"
+    },
+    {
+        "name": "Rental",
+        "type": "income"
+    },
+    {
+        "name": "Refunds",
+        "type": "income"
+    },
+    {
+        "name": "Coupons",
+        "type": "income"
+    },
+    {
+        "name": "Lottery",
+        "type": "income"
+    },
+    {
+        "name": "Dividends",
+        "type": "income"
+    },
+    {
+        "name": "Investments",
+        "type": "income"
+    },
+    {
+        "name": "Others",
+        "type": "income"
+    },
+    {
+        "name": "Food",
+        "type": "expense"
+    },
+    {
+        "name": "Bills",
+        "type": "expense"
+    },
+    {
+        "name": "Transportation",
+        "type": "expense"
+    },
+    {
+        "name": "Home",
+        "type": "expense"
+    },
+    {
+        "name": "Car",
+        "type": "expense"
+    },
+    {
+        "name": "Entertainment",
+        "type": "expense"
+    },
+    {
+        "name": "Shopping",
+        "type": "expense"
+    },
+    {
+        "name": "Clothing",
+        "type": "expense"
+    },
+    {
+        "name": "Insurance",
+        "type": "expense"
+    },
+    {
+        "name": "Tax",
+        "type": "expense"
+    },
+    {
+        "name": "Telephone",
+        "type": "expense"
+    },
+    {
+        "name": "Cigarette",
+        "type": "expense"
+    },
+    {
+        "name": "Health",
+        "type": "expense"
+    },
+    {
+        "name": "Sport",
+        "type": "expense"
+    },
+    {
+        "name": "Baby",
+        "type": "expense"
+    },
+    {
+        "name": "Pet",
+        "type": "expense"
+    },
+    {
+        "name": "Beauty",
+        "type": "expense"
+    },
+    {
+        "name": "Electronics",
+        "type": "expense"
+    },
+    {
+        "name": "Hamburger",
+        "type": "expense"
+    },
+    {
+        "name": "Wine",
+        "type": "expense"
+    },
+    {
+        "name": "Vegetables",
+        "type": "expense"
+    },
+    {
+        "name": "Snacks",
+        "type": "expense"
+    },
+    {
+        "name": "Gift",
+        "type": "expense"
+    },
+    {
+        "name": "Social",
+        "type": "expense"
+    },
+    {
+        "name": "Travel",
+        "type": "expense"
+    },
+    {
+        "name": "Education",
+        "type": "expense"
+    },
+    {
+        "name": "Fruits",
+        "type": "expense"
+    },
+    {
+        "name": "Book",
+        "type": "expense"
+    },
+    {
+        "name": "Office",
+        "type": "expense"
+    },
+    {
+        "name": "Others",
+        "type": "expense"
+    }
+]
