@@ -2,6 +2,9 @@ const express = require('express');
 const dotenv = require('dotenv');
 const DB = require('./db');
 
+// Routes
+const categoriesRoute = require('./routes/categories');
+
 // Init environment config
 dotenv.config();
 
@@ -13,6 +16,9 @@ const app = express();
 
 // Middleware to parse request payload to JSON
 app.use(express.json());
+
+// API routes
+app.use('/categories', categoriesRoute);
 
 // 404 Not Found handler
 app.use((req, res, next) => {
