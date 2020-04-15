@@ -22,6 +22,9 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    photoUrl: {
+        type: String
+    },
     emailVerified: {
         type: Boolean
     },
