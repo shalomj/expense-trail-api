@@ -26,4 +26,18 @@ Router.post(
     AuthController.signup
 );
 
+Router.post(
+    '/login',
+    [
+        body('email')
+            .not().isEmpty().withMessage('Email address is required')
+            .isEmail().withMessage('Invalid email address')
+            .normalizeEmail(),
+        body('password')
+            .not().isEmpty().withMessage('Password is required')
+            .trim()
+    ],
+    AuthController.login
+);
+
 module.exports = Router;
