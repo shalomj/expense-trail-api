@@ -23,7 +23,8 @@ DB.connect = async function () {
         this.connection = await mongoose.connect(process.env.DB_CONNECTION, {
             useNewUrlParser: true,
             useCreateIndex: true,
-            useUnifiedTopology: true
+            useUnifiedTopology: true,
+            useFindAndModify: false
         });
     } catch (err) {
         this._handleError(err);
