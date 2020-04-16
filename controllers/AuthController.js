@@ -1,5 +1,6 @@
 const { validationResult } = require('express-validator');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
 
@@ -12,7 +13,7 @@ const AuthController = {
         if (!errors.isEmpty()) {
             return res.status(400)
                 .json({
-                    status: "failed",
+                    status: 'failed',
                     errors: errors.array()
                 });
         }
@@ -30,7 +31,7 @@ const AuthController = {
 
             if (user) {
                 return res.status(200).json({
-                    status: "failed",
+                    status: 'failed',
                     message: "An account with that email address already exists. Please login to continue."
                 });
             }
@@ -55,7 +56,77 @@ const AuthController = {
             console.log(err.message);
 
             res.status(500).json({
-                status: "failed",
+                status: 'failed',
+                message: "Unable to process request"
+            });
+        }
+    },
+
+    login: async (req, res) => {
+        // Check for errors
+        const errors = validationResult(req);
+
+        if (!errors.isEmpty()) {
+            return res.status(400)
+                .json({
+                    status: 'failed',
+                    errors: errors.array()
+                });
+        }
+
+        const { email, password } = req.body;
+        const defaultError = 'Invalid email address or password';
+
+        try {
+            const user = await User.findOne({ email });
+
+            if (!user) {
+                return res.status(200)
+                    .json({
+                        status: 'failed',
+                        message: defaultError
+                    });
+            }
+
+            const isValidPassword = await bcrypt.compare(password, user.password);
+
+            if (!isValidPassword) {
+                return res.status(200)
+                    .json({
+                        status: 'failed',
+                        message: defaultError
+                    });
+            }
+
+            const payload = {
+                user: {
+                    id: user.id
+                }
+            };
+
+            jwt.sign(
+                payload,
+                process.env.JWT_ACCESS_TOKEN_SECRET,
+                {
+                    expiresIn: '24h'
+                },
+                (err, token) => {
+                    if (err) throw err;
+
+                    res.status(200)
+                        .json({
+                            status: 'success',
+                            data: {
+                                accessToken: token
+                            }
+                        });
+                }
+            );
+        } catch (err) {
+            console.log(err.message);
+
+            res.status(500).json({
+                status: 'failed',
                 message: "Unable to process request"
             });
         }
