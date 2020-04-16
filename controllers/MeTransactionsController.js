@@ -34,8 +34,11 @@ const MeTransactionsController = {
         try {
             // Find user transaction with category
             const transaction = await Transaction
-                .findById(
-                    req.params.id,
+                .findOne(
+                    {
+                        user: req.user.id,
+                        _id: req.params.id
+                    },
                     '-__v'
                 )
                 .populate('category', 'name type');
@@ -137,12 +140,13 @@ const MeTransactionsController = {
                 });
         }
 
-        const user = req.user;
         const { category, memo, amount, type } = req.body;
+
+        console.log(req.user.id);
 
         try {
             // Find user transaction
-            let transaction = await Transaction.findById(req.params.id);
+            let transaction = await Transaction.findOne({ user: req.user.id, _id: req.params.id });
 
             if (!transaction) {
                 return res.status(404)
@@ -189,7 +193,7 @@ const MeTransactionsController = {
 
     delete: async (req, res) => {
         try {
-            const transaction = await Transaction.findById(req.params.id);
+            const transaction = await Transaction.findOne({ user: req.user.id, _id: req.params.id });
 
             if (!transaction) {
                 return res.status(404)
