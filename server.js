@@ -5,6 +5,7 @@ const DB = require('./db');
 // Routes
 const categoriesRoute = require('./routes/categories');
 const authRoute = require('./routes/auth');
+const meRoute = require('./routes/me');
 
 // Init environment config
 dotenv.config();
@@ -21,6 +22,7 @@ app.use(express.json());
 // API routes
 app.use('/api/v1/categories', categoriesRoute);
 app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/me', meRoute);
 
 // 404 Not Found handler
 app.use((req, res, next) => {
