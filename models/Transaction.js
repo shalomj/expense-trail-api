@@ -8,7 +8,7 @@ const TransactionSchema = new Schema({
     },
     category: {
         type: Schema.Types.ObjectId,
-        ref: 'categories'
+        ref: 'category'
     },
     memo: {
         type: String,
