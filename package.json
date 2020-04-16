@@ -5,7 +5,8 @@
   "main": "server.js",
   "scripts": {
     "start": "node server",
-    "dev": "nodemon server"
+    "dev": "nodemon server",
+    "migrate-mongo": "node ./node_modules/migrate-mongo/bin/migrate-mongo"
   },
   "repository": {
     "type": "git",
@@ -23,6 +24,7 @@
     "express": "^4.17.1",
     "express-validator": "^6.4.0",
     "jsonwebtoken": "^8.5.1",
+    "migrate-mongoose": "^4.0.0",
     "mongoose": "^5.9.7"
   },
   "devDependencies": {
