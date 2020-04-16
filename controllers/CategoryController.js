@@ -8,13 +8,13 @@ const CategoryController = {
 
             res.status(200)
                 .json({
-                    status: "success",
+                    status: 'success',
                     data: categories
                 });
         } catch (err) {
             res.status(422)
                 .json({
-                    status: "failed",
+                    status: 'failed',
                     message: "Unable to load categories"
                 });
         }
@@ -26,13 +26,13 @@ const CategoryController = {
 
             res.status(200)
                 .json({
-                    status: "success",
+                    status: 'success',
                     data: category
                 });
         } catch (err) {
             res.status(404)
                 .json({
-                    status: "failed",
+                    status: 'failed',
                     message: "Category not found"
                 });
         }
