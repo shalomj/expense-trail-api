@@ -18,7 +18,7 @@ const app = express();
 app.use(express.json());
 
 // API routes
-app.use('/categories', categoriesRoute);
+app.use('/api/v1/categories', categoriesRoute);
 
 // 404 Not Found handler
 app.use((req, res, next) => {
