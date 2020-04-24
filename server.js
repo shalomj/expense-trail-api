@@ -1,4 +1,5 @@
 const express = require('express');
+const cors = require('cors');
 const dotenv = require('dotenv');
 const DB = require('./db');
 
@@ -16,6 +17,8 @@ DB.init().connect();
 // Setup Express server
 const app = express();
 
+// CORS middleware
+app.use(cors());
 // Middleware to parse request payload to JSON
 app.use(express.json());
 
