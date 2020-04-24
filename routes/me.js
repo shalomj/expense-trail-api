@@ -17,6 +17,10 @@ const transactionValidation = [
         .not().isEmpty().withMessage('Memo is required')
         .trim()
         .escape(),
+    body('logDate')
+        .isISO8601().withMessage('Invalid log date')
+        .trim()
+        .escape(), 
     body('amount')
         .not().isEmpty().withMessage('Amount is required')
         .isNumeric().withMessage('Invalid amount')
