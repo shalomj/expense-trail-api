@@ -80,7 +80,7 @@ const MeTransactionsController = {
         }
 
         const user = req.user;
-        const { category, memo, amount, type } = req.body;
+        const { category, memo, logDate, amount, type } = req.body;
 
         try {
             // Find selected category
@@ -97,7 +97,8 @@ const MeTransactionsController = {
             let transaction = new Transaction({
                 user: user.id,
                 category: selectedCategory._id,
-                memo,
+                memo, 
+                logDate, 
                 amount,
                 type
             });
@@ -140,7 +141,7 @@ const MeTransactionsController = {
                 });
         }
 
-        const { category, memo, amount, type } = req.body;
+        const { category, memo, logDate, amount, type } = req.body;
 
         console.log(req.user.id);
 
@@ -169,6 +170,7 @@ const MeTransactionsController = {
 
             transaction.category = selectedCategory._id;
             transaction.memo = memo;
+            transaction.logDate = logDate;
             transaction.amount = amount;
             transaction.type = type;
             transaction.updatedAt = Date.now();

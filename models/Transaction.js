@@ -14,6 +14,9 @@ const TransactionSchema = new Schema({
         type: String,
         required: true
     },
+    logDate: {
+        type: Date
+    },
     amount: {
         type: Number,
         required: true
