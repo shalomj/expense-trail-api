@@ -2,7 +2,7 @@ const { validationResult } = require('express-validator');
 const Category = require('../models/Category');
 const Transaction = require('../models/Transaction');
 
-const MeTransactionsController = {
+const TransactionsController = {
 
     fetchAll: async (req, res) => {
         try {
@@ -224,4 +224,4 @@ const MeTransactionsController = {
     }
 };
 
-module.exports = MeTransactionsController;
+module.exports = TransactionsController;
