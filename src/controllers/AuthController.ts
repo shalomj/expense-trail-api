@@ -1,14 +1,17 @@
-const { validationResult } = require('express-validator');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import { Request, Response } from 'express';
+import { validationResult, Result as ValidationError } from 'express-validator';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import { User, UserInterface } from '../models/User';
+import AuthInterface from '../utils/auth';
 
+const JWT_ACCESS_TOKEN_SECRET: string = (process.env.JWT_ACCESS_TOKEN_SECRET as string);
 
 const AuthController = {
 
-    signup: async (req, res) => {
+    signup: async (req: Request, res: Response) => {
         // Check for errors
-        const errors = validationResult(req);
+        const errors: ValidationError = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400)
@@ -27,7 +30,7 @@ const AuthController = {
 
         try {
             // Check if email address already exists
-            let user = await User.findOne({ email });
+            let user: UserInterface|null = await User.findOne({ email });
 
             if (user) {
                 return res.status(200).json({
@@ -36,7 +39,7 @@ const AuthController = {
                 });
             }
 
-            const hashedPassword = await bcrypt.hash(password, 10);
+            const hashedPassword: string = await bcrypt.hash(password, 10);
 
             user = new User({
                 firstName,
@@ -53,8 +56,6 @@ const AuthController = {
                 message: "Registration successful"
             });
         } catch (err) {
-            console.log(err.message);
-
             res.status(500).json({
                 status: 'failed',
                 message: "Unable to process request"
@@ -62,9 +63,9 @@ const AuthController = {
         }
     },
 
-    login: async (req, res) => {
+    login: async (req: Request, res: Response) => {
         // Check for errors
-        const errors = validationResult(req);
+        const errors: ValidationError = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400)
@@ -75,10 +76,10 @@ const AuthController = {
         }
 
         const { email, password } = req.body;
-        const defaultError = 'Invalid email address or password';
+        const defaultError: string = 'Invalid email address or password';
 
         try {
-            const user = await User.findOne({ email });
+            const user: UserInterface|null = await User.findOne({ email });
 
             if (!user) {
                 return res.status(200)
@@ -88,7 +89,7 @@ const AuthController = {
                     });
             }
 
-            const isValidPassword = await bcrypt.compare(password, user.password);
+            const isValidPassword: boolean = await bcrypt.compare(password, user.password);
 
             if (!isValidPassword) {
                 return res.status(200)
@@ -98,15 +99,13 @@ const AuthController = {
                     });
             }
 
-            const payload = {
-                user: {
-                    id: user.id
-                }
+            const payload: AuthInterface = {
+                _id: user._id
             };
 
             jwt.sign(
                 payload,
-                process.env.JWT_ACCESS_TOKEN_SECRET,
+                JWT_ACCESS_TOKEN_SECRET,
                 {
                     expiresIn: '24h'
                 },
@@ -123,8 +122,6 @@ const AuthController = {
                 }
             );
         } catch (err) {
-            console.log(err.message);
-
             res.status(500).json({
                 status: 'failed',
                 message: "Unable to process request"
@@ -133,4 +130,4 @@ const AuthController = {
     }
 };
 
-module.exports = AuthController;
+export default AuthController;

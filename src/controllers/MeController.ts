@@ -1,10 +1,11 @@
-const User = require('../models/User');
+import { Request, Response } from "express";
+import { User, UserInterface } from '../models/User';
 
 const MeController = {
 
-    fetch: async (req, res) => {
+    fetch: async (req: Request, res: Response) => {
         try {
-            const user = await User.findById(req.user.id, '-password -__v');
+            const user: UserInterface|null = await User.findById(res.locals.auth._id, '-password -__v');
 
             if (!user) {
                 return res.status(404)
@@ -20,8 +21,6 @@ const MeController = {
                     data: user
                 });
         } catch (err) {
-            console.log(err.message);
-
             res.status(500).json({
                 status: 'failed',
                 message: "Unable to process request"
@@ -30,4 +29,4 @@ const MeController = {
     }
 };
 
-module.exports = MeController;
+export default MeController;
