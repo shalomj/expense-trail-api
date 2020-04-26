@@ -1,27 +1,32 @@
-const { validationResult } = require('express-validator');
-const Category = require('../models/Category');
-const Transaction = require('../models/Transaction');
+import { Request, Response } from 'express';
+import { validationResult, Result as ValidationError } from 'express-validator';
+import { Category, CategoryInterface } from '../models/Category';
+import { Transaction, TransactionInterface } from '../models/Transaction';
+import { FilterQuery } from 'mongoose';
+
+interface TransactionFilterInterface extends FilterQuery<Object> {
+    _id?: string, 
+    user: string, 
+    type?: string, 
+};
 
 const TransactionsController = {
 
-    fetchAll: async (req, res) => {
+    fetchAll: async (req: Request, res: Response) => {
         try {
-            const conditions = {
-                user: req.user.id
+            const filter: TransactionFilterInterface = {
+                user: res.locals.auth._id
             };
 
             if (req.query._type) {
-                conditions.type = req.query._type;
+                filter.type = (req.query._type as string);
             }
 
-            const limit = parseInt(req.query._limit) || 10;
+            const limit: number = Number(req.query._limit) || 10;
 
             // Get all user transactions with category
-            const transactions = await Transaction
-                .find(
-                    conditions,
-                    '-__v'
-                )
+            const transactions: TransactionInterface[] = await Transaction
+                .find(filter, '-__v')
                 .limit(limit)
                 .populate('category', 'name type');
 
@@ -31,8 +36,6 @@ const TransactionsController = {
                     data: transactions
                 });
         } catch (err) {
-            console.log(err.message);
-
             res.status(500)
                 .json({
                     status: 'failed',
@@ -41,17 +44,16 @@ const TransactionsController = {
         }
     },
 
-    fetch: async (req, res) => {
+    fetch: async (req: Request, res: Response) => {
         try {
             // Find user transaction with category
-            const transaction = await Transaction
-                .findOne(
-                    {
-                        user: req.user.id,
-                        _id: req.params.id
-                    },
-                    '-__v'
-                )
+            const filter: TransactionFilterInterface = {
+                _id: req.params.id, 
+                user: res.locals.auth._id
+            };
+
+            const transaction: TransactionInterface|null = await Transaction
+                .findOne(filter, '-__v')
                 .populate('category', 'name type');
 
             if (!transaction) {
@@ -68,8 +70,6 @@ const TransactionsController = {
                     data: transaction
                 });
         } catch (err) {
-            console.log(err.message);
-
             res.status(500)
                 .json({
                     status: 'failed',
@@ -78,9 +78,9 @@ const TransactionsController = {
         }
     },
 
-    create: async (req, res) => {
+    create: async (req: Request, res: Response) => {
         // Check for validation errors
-        const errors = validationResult(req);
+        const errors: ValidationError = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400)
@@ -90,12 +90,11 @@ const TransactionsController = {
                 });
         }
 
-        const user = req.user;
         const { category, memo, logDate, amount, type } = req.body;
 
         try {
             // Find selected category
-            const selectedCategory = await Category.findById(category);
+            const selectedCategory: CategoryInterface|null = await Category.findById(category);
 
             if (!selectedCategory) {
                 return res.status(404)
@@ -105,8 +104,8 @@ const TransactionsController = {
                     });
             }
 
-            let transaction = new Transaction({
-                user: user.id,
+            let transaction: TransactionInterface = new Transaction({
+                user: res.locals.auth._id,
                 category: selectedCategory._id,
                 memo, 
                 logDate, 
@@ -130,8 +129,6 @@ const TransactionsController = {
                     data: transaction
                 });
         } catch (err) {
-            console.log(err.message);
-
             res.status(500)
                 .json({
                     status: 'failed',
@@ -140,9 +137,9 @@ const TransactionsController = {
         }
     },
 
-    update: async (req, res) => {
+    update: async (req: Request, res: Response) => {
         // Check for validation errors
-        const errors = validationResult(req);
+        const errors: ValidationError = validationResult(req);
 
         if (!errors.isEmpty()) {
             return res.status(400)
@@ -154,11 +151,14 @@ const TransactionsController = {
 
         const { category, memo, logDate, amount, type } = req.body;
 
-        console.log(req.user.id);
-
         try {
             // Find user transaction
-            let transaction = await Transaction.findOne({ user: req.user.id, _id: req.params.id });
+            const filter: TransactionFilterInterface = {
+                _id: req.params.id, 
+                user: res.locals.auth._id
+            };
+
+            let transaction: TransactionInterface|null = await Transaction.findOne(filter);
 
             if (!transaction) {
                 return res.status(404)
@@ -169,7 +169,7 @@ const TransactionsController = {
             }
 
             // Find selected category
-            const selectedCategory = await Category.findById(category);
+            const selectedCategory: CategoryInterface|null = await Category.findById(category);
 
             if (!selectedCategory) {
                 return res.status(404)
@@ -194,8 +194,6 @@ const TransactionsController = {
                     data: transaction
                 });
         } catch (err) {
-            console.log(err.message);
-
             res.status(500)
                 .json({
                     status: 'failed',
@@ -204,9 +202,15 @@ const TransactionsController = {
         }
     },
 
-    delete: async (req, res) => {
+    delete: async (req: Request, res: Response) => {
         try {
-            const transaction = await Transaction.findOne({ user: req.user.id, _id: req.params.id });
+            // Find transaction
+            const filter: TransactionFilterInterface = {
+                _id: req.params.id, 
+                user: res.locals.auth._id
+            };
+
+            const transaction: TransactionInterface|null = await Transaction.findOne(filter);
 
             if (!transaction) {
                 return res.status(404)
@@ -224,8 +228,6 @@ const TransactionsController = {
                     message: 'Transaction has been successfully deleted'
                 });
         } catch (err) {
-            console.log(err.message);
-
             res.status(500)
                 .json({
                     status: 'failed',
@@ -235,4 +237,4 @@ const TransactionsController = {
     }
 };
 
-module.exports = TransactionsController;
+export default TransactionsController;

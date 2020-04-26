@@ -1,7 +1,17 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import mongoose, { Document, Schema } from 'mongoose';
 
-const TransactionSchema = new Schema({
+export interface TransactionInterface extends Document {
+    user: string, 
+    category: string, 
+    memo: string, 
+    logDate: string, 
+    amount: number, 
+    type: string, 
+    createdAt: string|number, 
+    updatedAt: string|number
+};
+
+const TransactionSchema: Schema = new Schema({
     user: {
         type: Schema.Types.ObjectId,
         ref: 'users'
@@ -35,4 +45,4 @@ const TransactionSchema = new Schema({
     }
 });
 
-module.exports = mongoose.model('transaction', TransactionSchema);
+export const Transaction = mongoose.model<TransactionInterface>('transaction', TransactionSchema, 'transactions');

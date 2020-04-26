@@ -1,10 +1,11 @@
-const express = require('express');
-const Router = express.Router();
-const auth = require('../middlewares/auth');
-const { body } = require('express-validator');
-const TransactionsController = require('../controllers/TransactionsController');
+import express from 'express';
+import auth from '../middlewares/auth';
+import { body, ValidationChain } from 'express-validator';
+import TransactionsController from '../controllers/TransactionsController';
 
-const transactionValidation = [
+const Router: express.Router = express.Router();
+
+const transactionValidation: ValidationChain[] = [
     body('category')
         .not().isEmpty().withMessage('Category is required')
         .trim()
@@ -28,4 +29,4 @@ Router.post('/', auth, transactionValidation, TransactionsController.create);
 Router.patch('/:id', auth, transactionValidation, TransactionsController.update);
 Router.delete('/:id', auth, TransactionsController.delete);
 
-module.exports = Router;
+export default Router;
