@@ -6,12 +6,23 @@ const TransactionsController = {
 
     fetchAll: async (req, res) => {
         try {
+            const conditions = {
+                user: req.user.id
+            };
+
+            if (req.query._type) {
+                conditions.type = req.query._type;
+            }
+
+            const limit = parseInt(req.query._limit) || 10;
+
             // Get all user transactions with category
             const transactions = await Transaction
                 .find(
-                    { user: req.user.id },
+                    conditions,
                     '-__v'
                 )
+                .limit(limit)
                 .populate('category', 'name type');
 
             res.status(200)
