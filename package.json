@@ -2,7 +2,7 @@
   "name": "expense-trail-api",
   "version": "1.0.0",
   "description": "API for Expense Trail app",
-  "main": "server.js",
+  "main": "./src/server.js",
   "scripts": {
     "start": "node server",
     "dev": "nodemon server",
