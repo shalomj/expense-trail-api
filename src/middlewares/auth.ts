@@ -5,11 +5,7 @@ import AuthInterface from '../utils/auth';
 const JWT_ACCESS_TOKEN_SECRET = (process.env.JWT_ACCESS_TOKEN_SECRET as string);
 
 export default (req: Request, res: Response, next: NextFunction) => {
-    console.log('before auth');
-
     const bearer: string|undefined = req.header('authorization');
-
-    console.log(bearer);
 
     if (!bearer) {
         return res.status(401)
@@ -20,8 +16,6 @@ export default (req: Request, res: Response, next: NextFunction) => {
     }
 
     const token: string = bearer.split(' ')[1];
-
-    console.log(token);
 
     try {
         jwt.verify(token, JWT_ACCESS_TOKEN_SECRET, (err, decoded) => {
