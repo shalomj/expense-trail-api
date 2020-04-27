@@ -4,8 +4,9 @@
   "description": "API for Expense Trail app",
   "main": "./dist/server.js",
   "scripts": {
-    "start": "node dist/server",
-    "dev": "nodemon dist/server",
+    "start": "node dist/server.js",
+    "dev": "nodemon dist/server.js",
+    "heroku-postbuild": "tsc", 
     "migrate-mongo": "node ./node_modules/migrate-mongo/bin/migrate-mongo"
   },
   "repository": {
